@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/gob"
+	"flag"
 	"fmt"
 	"log"
 	"net"
@@ -48,5 +49,8 @@ func writeMessage(conn net.Conn) {
 }
 
 func main() {
-	client(":3035")
+	var startServer string
+	flag.StringVar(&startServer, "start", "", "Connect to TCP server")
+	flag.Parse()
+	client(":" + startServer)
 }
