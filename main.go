@@ -22,6 +22,8 @@ func client(network string) {
 	go readMessages(connection)
 
 	writeMessage(connection)
+	connection.Close()
+
 }
 
 func readMessages(conn net.Conn) {
@@ -42,6 +44,8 @@ func writeMessage(conn net.Conn) {
 		input, _ := commands.GetInput()
 		fmt.Println(input)
 		if input == "exit" {
+			gob.NewEncoder(conn).Encode(&models.Messages{Message: "Disconnect"})
+			conn.Close()
 			break
 		}
 		commands.RunCommand(input, conn)
